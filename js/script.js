@@ -7,15 +7,26 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Задержка завершения прелоудера
     setTimeout(() => {
+        // Добавляем класс завершения для плавного исчезновения
         preloader.classList.add('complete');
+        
+        // Показываем основной контент
         mainContent.style.display = 'block';
         header.style.display = 'flex';
         
-        // Инициализируем все функции
-        initializeHeroParallax();
+        // Инициализируем галереи
         initializeGalleries();
-        initializeModal();
+        
+        // Инициализируем герой паралакс
+        initializeHeroParallax();
+        
+        // Запускаем параллакс эффекты
+        initializeParallax();
+        
+        // Запускаем скролл эффекты
         initializeScrollEffects();
+        
+        // Инициализируем форму
         initializeForm();
         
         // Через 1 секунду скрываем прелоудер полностью
@@ -112,67 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ]
     };
     
-    // ИНИЦИАЛИЗАЦИЯ ГЕРОЙ ПАРАЛАКС
-    function initializeHeroParallax() {
-        let currentSet = 1;
-        const heroSubtitles = [
-            "Expertises onder één dak",
-            "Natuursteen Specialisten",
-            "Vloer & Terras Experts"
-        ];
-        const heroDescriptions = [
-            "Met oog voor detail, duurzaamheid en kwaliteit realiseren wij uw droomproject.",
-            "Jarenlange ervaring met marmer, graniet en alle soorten natuursteen.",
-            "Van klassieke keramiek tot moderne grootformaat tegels voor binnen en buiten."
-        ];
-
-        function changeSet() {
-            document.querySelectorAll('.parallax-set').forEach(s => s.classList.remove('active'));
-            currentSet = currentSet >= 3 ? 1 : currentSet + 1;
-            const activeSet = document.getElementById(`set${currentSet}`);
-            if (activeSet) {
-                activeSet.classList.add('active');
-            }
-            
-            // Оновлення тексту
-            const subtitle = document.getElementById('heroSubtitle');
-            const description = document.getElementById('heroDescription');
-            if (subtitle && description) {
-                subtitle.textContent = heroSubtitles[currentSet - 1];
-                description.textContent = heroDescriptions[currentSet - 1];
-            }
-        }
-        
-        // Автоматична зміна кожні 8 секунд
-        setInterval(changeSet, 8000);
-        
-        // Smart Scroll - працює тільки на головній
-        const scrollIndicator = document.getElementById('scrollIndicator');
-        if (scrollIndicator) {
-            scrollIndicator.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector('#renovatie');
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        }
-        
-        // Вимикаємо проблемний скролл на головній
-        let isFirstScroll = true;
-        window.addEventListener('wheel', (e) => {
-            if (window.scrollY < 100 && isFirstScroll && e.deltaY > 0) {
-                // Дозволяємо звичайний скролл
-                setTimeout(() => {
-                    isFirstScroll = false;
-                }, 500);
-            }
-        }, { passive: true });
-    }
-    
     // ИНИЦИАЛИЗАЦИЯ ГАЛЕРЕЙ
     function initializeGalleries() {
         for (const galleryId in galleryData) {
@@ -188,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 galleryItem.dataset.description = item.description;
                 
                 galleryItem.innerHTML = `
-                    <img src="${item.src}" alt="${item.title}" class="gallery-image" loading="lazy">
+                    <img src="${item.src}" alt="${item.title}" class="gallery-image">
                     <div class="gallery-overlay">
                         <div class="gallery-title">${item.title}</div>
                         <div class="gallery-description">${item.description}</div>
@@ -221,105 +171,173 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // ИНИЦИАЛИЗАЦИЯ ГЕРОЙ ПАРАЛАКС
+    function initializeHeroParallax() {
+        // Паралакс слайдер з описом
+        let currentSet = 1;
+        const heroSubtitles = [
+            "Expertises onder één dak",
+            "Natuursteen Specialisten",
+            "Vloer & Terras Experts"
+        ];
+        const heroDescriptions = [
+            "Met oog voor detail, duurzaamheid en kwaliteit realiseren wij uw droomproject.",
+            "Jarenlange ervaring met marmer, graniet en alle soorten natuursteen.",
+            "Van klassieke keramiek tot moderne grootformaat tegels voor binnen en buiten."
+        ];
+
+        function changeSet() {
+            document.querySelectorAll('.parallax-set').forEach(s => s.classList.remove('active'));
+            currentSet = currentSet >= 3 ? 1 : currentSet + 1;
+            document.getElementById(`set${currentSet}`).classList.add('active');
+            
+            // Оновлення тексту
+            document.getElementById('heroSubtitle').textContent = heroSubtitles[currentSet - 1];
+            document.getElementById('heroDescription').textContent = heroDescriptions[currentSet - 1];
+        }
+        
+        // Автоматична зміна кожні 8 секунд
+        setInterval(changeSet, 8000);
+        
+        // Smart Scroll - плавна прокрутка при невеликому скролі
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        let isScrolling = false;
+        
+        window.addEventListener('wheel', (e) => {
+            if (window.scrollY < 100 && !isScrolling) {
+                if (e.deltaY > 0) {
+                    // Прокрутка вниз на головній сторінці
+                    e.preventDefault();
+                    isScrolling = true;
+                    
+                    document.querySelector('#renovatie').scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    setTimeout(() => {
+                        isScrolling = false;
+                    }, 1000);
+                }
+            }
+        });
+
+        // Клік на індикатор скролу
+        scrollIndicator.addEventListener('click', () => {
+            document.querySelector('#renovatie').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    }
+    
     // МОДАЛЬНАЯ ГАЛЕРЕЯ
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalImage = document.getElementById('modalImage');
+    const modalPrev = document.getElementById('modalPrev');
+    const modalNext = document.getElementById('modalNext');
+    const modalThumbs = document.getElementById('modalThumbs');
+    const modalClose = document.getElementById('modalClose');
+    
     let currentGallery = null;
     let currentIndex = 0;
     
-    function initializeModal() {
-        const modalOverlay = document.getElementById('modalOverlay');
-        const modalImage = document.getElementById('modalImage');
-        const modalPrev = document.getElementById('modalPrev');
-        const modalNext = document.getElementById('modalNext');
-        const modalThumbs = document.getElementById('modalThumbs');
-        const modalClose = document.getElementById('modalClose');
+    function openModal(galleryId, index) {
+        currentGallery = galleryId;
+        currentIndex = index;
         
-        function openModal(galleryId, index) {
-            currentGallery = galleryId;
-            currentIndex = index;
-            
-            updateModal();
-            modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+        updateModal();
+        modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal() {
+        modalOverlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+    
+    function updateModal() {
+        if (!currentGallery) return;
         
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+        const items = galleryData[currentGallery];
+        if (!items || !items[currentIndex]) return;
         
-        function updateModal() {
-            if (!currentGallery) return;
-            
-            const items = galleryData[currentGallery];
-            if (!items || !items[currentIndex]) return;
-            
-            const item = items[currentIndex];
-            modalImage.src = item.src;
-            modalImage.alt = item.title;
-            modalImage.classList.remove('active');
-            
-            setTimeout(() => {
-                modalImage.classList.add('active');
-            }, 100);
-            
-            updateModalThumbs();
-        }
+        const item = items[currentIndex];
+        modalImage.src = item.src;
+        modalImage.alt = item.title;
+        modalImage.classList.remove('active');
         
-        function updateModalThumbs() {
-            modalThumbs.innerHTML = '';
-            const items = galleryData[currentGallery];
-            
-            items.forEach((item, index) => {
-                const thumb = document.createElement('div');
-                thumb.className = `modal-thumb ${index === currentIndex ? 'active' : ''}`;
-                thumb.innerHTML = `<img src="${item.src}" alt="${item.title}" loading="lazy">`;
-                thumb.addEventListener('click', () => {
-                    currentIndex = index;
-                    updateModal();
-                });
-                modalThumbs.appendChild(thumb);
-            });
-        }
+        setTimeout(() => {
+            modalImage.classList.add('active');
+        }, 100);
         
-        if (modalPrev) {
-            modalPrev.addEventListener('click', () => {
-                const items = galleryData[currentGallery];
-                currentIndex = (currentIndex - 1 + items.length) % items.length;
+        updateModalThumbs();
+    }
+    
+    function updateModalThumbs() {
+        modalThumbs.innerHTML = '';
+        const items = galleryData[currentGallery];
+        
+        items.forEach((item, index) => {
+            const thumb = document.createElement('div');
+            thumb.className = `modal-thumb ${index === currentIndex ? 'active' : ''}`;
+            thumb.innerHTML = `<img src="${item.src}" alt="${item.title}">`;
+            thumb.addEventListener('click', () => {
+                currentIndex = index;
                 updateModal();
             });
+            modalThumbs.appendChild(thumb);
+        });
+    }
+    
+    modalPrev.addEventListener('click', () => {
+        const items = galleryData[currentGallery];
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        updateModal();
+    });
+    
+    modalNext.addEventListener('click', () => {
+        const items = galleryData[currentGallery];
+        currentIndex = (currentIndex + 1) % items.length;
+        updateModal();
+    });
+    
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            closeModal();
         }
+    });
+    
+    document.addEventListener('keydown', (e) => {
+        if (!modalOverlay.classList.contains('active')) return;
         
-        if (modalNext) {
-            modalNext.addEventListener('click', () => {
-                const items = galleryData[currentGallery];
-                currentIndex = (currentIndex + 1) % items.length;
-                updateModal();
-            });
-        }
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'ArrowLeft') modalPrev.click();
+        if (e.key === 'ArrowRight') modalNext.click();
+    });
+    
+    // ПАРАЛЛАКС ЭФФЕКТЫ
+    function initializeParallax() {
+        const parallaxElements = document.querySelectorAll('.parallax-bg');
         
-        if (modalClose) {
-            modalClose.addEventListener('click', closeModal);
-        }
-        
-        if (modalOverlay) {
-            modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) {
-                    closeModal();
-                }
-            });
-        }
-        
-        document.addEventListener('keydown', (e) => {
-            if (!modalOverlay || !modalOverlay.classList.contains('active')) return;
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
             
-            if (e.key === 'Escape') closeModal();
-            if (e.key === 'ArrowLeft') modalPrev.click();
-            if (e.key === 'ArrowRight') modalNext.click();
+            parallaxElements.forEach(element => {
+                const speed = 0.5;
+                const yPos = -(scrolled * speed);
+                element.style.transform = `translate3d(0, ${yPos}px, 0) scale(1.2)`;
+            });
         });
         
-        // Экспортируем функции
-        window.openModal = openModal;
-        window.closeModal = closeModal;
+        // Дополнительный параллакс при движении мыши
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            
+            parallaxElements.forEach(element => {
+                element.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1.2)`;
+            });
+        });
     }
     
     // ЭФФЕКТЫ ПРИ СКРОЛЛЕ
@@ -327,19 +345,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('section[id]');
         
-        // Плавный скролл для навигации
+        // Плавный скролл с эффектом гравитации
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 
                 const targetId = this.getAttribute('href');
-                if (!targetId || targetId === '#') return;
-                
                 const targetSection = document.querySelector(targetId);
+                
                 if (targetSection) {
-                    // Обновляем активную ссылку
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
+                    // Эффект гравитации
+                    document.body.style.animation = 'gravityScroll 1s';
+                    setTimeout(() => {
+                        document.body.style.animation = '';
+                    }, 1000);
                     
                     // Плавный скролл
                     window.scrollTo({
@@ -351,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Активная навигация при скролле
-        function updateActiveNav() {
+        window.addEventListener('scroll', () => {
             let current = '';
             const scrollPos = window.scrollY + 100;
             
@@ -370,28 +389,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     link.classList.add('active');
                 }
             });
-        }
-        
-        // Эффект хедера при скролле
-        function updateHeader() {
+            
+            // Эффект хедера при скролле
             if (window.scrollY > 100) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
             }
-        }
-        
-        window.addEventListener('scroll', () => {
-            updateActiveNav();
-            updateHeader();
         });
         
-        // Инициализация при загрузке
-        updateActiveNav();
-        updateHeader();
-        
         // Анимация элементов при скролле
-        const animatedElements = document.querySelectorAll('.section-title, .section-subtitle, .gallery-container');
+        const animatedElements = document.querySelectorAll('.gallery-item, .section-title, .btn');
         
         function checkAnimation() {
             animatedElements.forEach(el => {
@@ -406,13 +414,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         window.addEventListener('scroll', checkAnimation);
-        checkAnimation(); // Проверяем сразу при загрузке
+        checkAnimation();
     }
     
     // ФОРМА ОБРАТНОЙ СВЯЗИ
     function initializeForm() {
         const contactForm = document.getElementById('contactForm');
-        if (!contactForm) return;
         
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -482,7 +489,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
     
+    // ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ
+    // Эффект мрамора
+    const marbleElements = document.querySelectorAll('.marble-effect');
+    marbleElements.forEach(el => {
+        el.style.background = `linear-gradient(45deg, 
+            rgba(26,26,26,0.8) 0%, 
+            rgba(51,51,51,0.6) 25%, 
+            rgba(77,77,77,0.4) 50%, 
+            rgba(102,102,102,0.6) 75%, 
+            rgba(128,128,128,0.8) 100%
+        )`;
+    });
+    
     // Эффект частиц для премиального ощущения
+    createParticles();
+    
     function createParticles() {
         const particlesContainer = document.createElement('div');
         particlesContainer.style.cssText = `
@@ -516,7 +538,4 @@ document.addEventListener('DOMContentLoaded', function() {
             particlesContainer.appendChild(particle);
         }
     }
-    
-    // Запускаем эффект частиц
-    createParticles();
 });
