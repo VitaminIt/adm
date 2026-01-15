@@ -1,0 +1,333 @@
+/* ОСНОВНЫЕ АНИМАЦИИ */
+
+/* Прелоудер - появление букв */
+@keyframes lettersAppear {
+    0% { 
+        opacity: 0; 
+        transform: translateY(50px) scale(0.9);
+        filter: blur(5px);
+    }
+    60% {
+        opacity: 1;
+        filter: blur(0);
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Прелоудер - молния */
+@keyframes flashLightning {
+    0% { 
+        background-position: -100% 50%;
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    50% {
+        background-position: 200% 50%;
+    }
+    100% { 
+        background-position: 300% 50%;
+        opacity: 0;
+    }
+}
+
+/* Прелоудер - оранжевая А */
+@keyframes orangeAReveal {
+    0% {
+        opacity: 0;
+        text-shadow: 0 0 0 rgba(255, 102, 0, 0);
+    }
+    50% {
+        text-shadow: 0 0 30px rgba(255, 102, 0, 0.8);
+    }
+    100% { 
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+    }
+}
+
+/* Прелоудер - текст stoneart */
+@keyframes textSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px);
+        letter-spacing: 10px;
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+        letter-spacing: 5px;
+    }
+}
+
+/* Прелоудер - квадратики */
+@keyframes squaresPop {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(180deg);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.2) rotate(-10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+/* Перемещение логотипа в хедер */
+@keyframes logoToHeader {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    40% {
+        transform: translate(calc(50vw - 300px), calc(-50vh + 100px)) scale(0.8);
+    }
+    100% {
+        transform: translate(30px, 30px) scale(0.35);
+    }
+}
+
+/* Появление хедера */
+@keyframes headerSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+        backdrop-filter: blur(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        backdrop-filter: blur(15px);
+    }
+}
+
+/* Параллакс фона */
+@keyframes parallaxFloat {
+    0% {
+        transform: scale(1.2) translate(0%, 0%) rotate(0deg);
+    }
+    33% {
+        transform: scale(1.2) translate(-1%, 1%) rotate(0.2deg);
+    }
+    66% {
+        transform: scale(1.2) translate(1%, -0.5%) rotate(-0.1deg);
+    }
+    100% {
+        transform: scale(1.2) translate(0%, 0%) rotate(0deg);
+    }
+}
+
+/* Появление секций */
+@keyframes sectionReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(100px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Появление элементов галереи */
+@keyframes galleryItemAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) rotateX(45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+    }
+}
+
+/* Мраморная текстура */
+@keyframes marbleFlow {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+/* Эффект гравитации при скролле */
+@keyframes gravityScroll {
+    0% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+    }
+    50% {
+        transform: translateY(-30px);
+        animation-timing-function: cubic-bezier(0.4, 0.1, 0.6, 0.9);
+    }
+    100% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0.2, 0.7, 0.4, 1);
+    }
+}
+
+/* Подсветка пункта меню */
+@keyframes menuItemGlow {
+    0% {
+        letter-spacing: normal;
+    }
+    100% {
+        letter-spacing: 3px;
+    }
+}
+
+/* Подсветка буквы А */
+@keyframes letterAGlow {
+    0% {
+        color: #fff;
+        text-shadow: none;
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 102, 0, 0.8);
+    }
+    100% {
+        color: #FF6600;
+        text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+    }
+}
+
+/* Анимация оранжевой линии */
+@keyframes underlineSlide {
+    0% {
+        transform: scaleX(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+/* Эффект матового стекла */
+@keyframes glassEffect {
+    0% {
+        backdrop-filter: blur(0);
+        background: rgba(255, 255, 255, 0);
+    }
+    100% {
+        backdrop-filter: blur(15px);
+        background: rgba(255, 255, 255, 0.05);
+    }
+}
+
+/* Эффект нажатия кнопки */
+@keyframes buttonPress {
+    0% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+        transform: translateY(2px) scale(0.98);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* Вращение мраморной текстуры */
+@keyframes marbleRotate {
+    0% {
+        transform: rotate(0deg);
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+        filter: hue-rotate(360deg);
+    }
+}
+
+/* Эффект частиц */
+@keyframes particlesFloat {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) rotate(var(--r));
+        opacity: 0;
+    }
+}
+
+/* МЕДЛЕННЫЙ СКРОЛЛ */
+html {
+    scroll-behavior: smooth;
+    scroll-timeline: --page-scroll block;
+}
+
+@keyframes smoothScroll {
+    0% {
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    50% {
+        animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    }
+    100% {
+        animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+}
+
+/* Smart Scroll Bounce */
+@keyframes bounce {
+    0%, 100% { 
+        transform: translateX(-50%) translateY(0); 
+    }
+    50% { 
+        transform: translateX(-50%) translateY(-10px); 
+    }
+}
+
+/* Parallax layer animations */
+@keyframes p1 { 
+    0%, 100% { 
+        transform: translate(0, 0) scale(1); 
+    } 
+    50% { 
+        transform: translate(-7%, -5%) scale(1.08); 
+    } 
+}
+
+@keyframes p2 { 
+    0%, 100% { 
+        transform: translate(0, 0) scale(1); 
+    } 
+    50% { 
+        transform: translate(5%, 7%) scale(1.1); 
+    } 
+}
+
+@keyframes p3 { 
+    0%, 100% { 
+        transform: translate(0, 0) scale(1); 
+    } 
+    50% { 
+        transform: translate(-6%, 6%) scale(1.12); 
+    } 
+}
+
+/* Section reveal with delay */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
