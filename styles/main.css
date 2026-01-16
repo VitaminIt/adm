@@ -1,4 +1,3 @@
-/* ОСНОВНЫЕ СТИЛИ И ПЕРЕМЕННЫЕ */
 :root {
     --primary-color: #FF6600;
     --primary-dark: #CC5200;
@@ -47,7 +46,6 @@ body {
     overflow-x: hidden;
 }
 
-/* ПРЕЛОУДЕР - ИСПРАВЛЕННАЯ ВЕРСИЯ */
 .preloader {
     position: fixed;
     top: 0;
@@ -88,7 +86,6 @@ body {
     box-shadow: 0 0 30px rgba(255, 102, 0, 0.1);
 }
 
-/* Анимации прелоудера - ИСПРАВЛЕНО */
 .letters-container {
     position: relative;
     width: 270px;
@@ -120,7 +117,6 @@ body {
     position: relative;
 }
 
-/* Эффект молнии - ИСПРАВЛЕНО (как в 1.html) */
 .flash-effect {
     position: relative;
     -webkit-background-clip: text;
@@ -165,7 +161,6 @@ body {
     opacity: 1;
 }
 
-/* Оранжевая буква А с анимацией свечения */
 .letter-a::before {
     content: 'A';
     position: absolute;
@@ -179,7 +174,6 @@ body {
     opacity: 0;
 }
 
-/* Нижняя строка логотипа */
 .logo-bottom-row {
     display: flex;
     align-items: stretch;
@@ -224,7 +218,6 @@ body {
     color: var(--primary-color);
 }
 
-/* Квадратики */
 .logo-squares-container {
     display: flex;
     flex-direction: column;
@@ -241,13 +234,12 @@ body {
 
 .logo-square {
     width: 8px;
-    height: 8px; /* Исправлено: сделаны квадратными */
+    height: 8px;
     background-color: var(--white);
     opacity: 0;
     transform: scale(0);
 }
 
-/* Анимация квадратиков */
 .logo-square:nth-child(1) { animation: squaresPop 0.3s ease-out 3.1s forwards; }
 .logo-square:nth-child(2) { animation: squaresPop 0.3s ease-out 3.2s forwards; }
 .logo-square:nth-child(3) { animation: squaresPop 0.3s ease-out 3.3s forwards; }
@@ -258,13 +250,12 @@ body {
 .logo-squares-row:nth-child(2) .logo-square:nth-child(3) { animation: squaresPop 0.3s ease-out 3.5s forwards; }
 .logo-squares-row:nth-child(2) .logo-square:nth-child(4) { animation: squaresPop 0.3s ease-out 3.6s forwards; }
 
-/* ХЕДЕР - ОБНОВЛЕННЫЙ С СОЦ. КНОПКАМИ И БУРГЕР-МЕНЮ */
 .header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 0 50px;
+    padding: 15px 50px;
     z-index: 1000;
     display: flex;
     justify-content: space-between;
@@ -276,75 +267,50 @@ body {
     background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 100%);
     border-bottom: 1px solid var(--glass-border);
     transition: all var(--transition-medium);
-    height: 80px;
+    min-height: 80px;
 }
 
 .header.scrolled {
     background: rgba(0,0,0,0.98);
-    padding: 0 50px;
-    height: 70px;
+    padding: 10px 50px;
+    min-height: 70px;
     box-shadow: 0 5px 30px rgba(0,0,0,0.3);
 }
 
-.header-logo {
-    animation: logoToHeader 1.5s cubic-bezier(0.4, 0, 0.2, 1) 3.8s forwards;
-    transform-origin: left center;
-    pointer-events: auto;
+/* ВИПРАВЛЕННЯ ЛОГО В ХЕДЕРІ */
+.header-logo-link {
     display: flex;
     align-items: center;
     height: 100%;
+    text-decoration: none;
     z-index: 1001;
-}
-
-.header-logo .logo {
+    animation: logoToHeader 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+    transform-origin: left center;
+    opacity: 0;
+    cursor: pointer;
+    background: none;
+    border: none;
     padding: 0;
-    background-color: transparent;
-    box-shadow: none;
-    position: relative;
-    top: -20px;
+    margin: 0;
 }
 
-.header-logo .letters-container {
-    width: 180px;
-    height: 60px;
+.header-logo-link:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 4px;
 }
 
-.header-logo .letters {
-    font-size: 60px;
-    letter-spacing: -3px;
+.header-logo-img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    transition: transform var(--transition-medium);
+    display: block;
 }
 
-.header-logo .letter-a {
-    margin-right: -10px;
+.header-logo-link:hover .header-logo-img {
+    transform: scale(1.05);
 }
 
-.header-logo .logo-bottom-row {
-    width: 180px;
-    height: 16px;
-}
-
-.header-logo .logo-rectangle {
-    width: 150px;
-    height: 13px;
-}
-
-.header-logo .logo-subtext {
-    font-size: 17px;
-    letter-spacing: 3.5px;
-}
-
-.header-logo .logo-squares-container {
-    width: 26px;
-    height: 17px; /* Исправлено: больше места */
-    margin-left: 4px;
-}
-
-.header-logo .logo-square {
-    width: 5px;
-    height: 5px; /* Исправлено: квадратные */
-}
-
-/* НАВИГАЦИЯ И СОЦ. КНОПКИ ДЛЯ ДЕСКТОПА */
 .nav-container {
     display: flex;
     align-items: center;
@@ -414,7 +380,6 @@ body {
     animation: underlineSlide 0.3s forwards;
 }
 
-/* СОЦИАЛЬНЫЕ КНОПКИ В ХЕДЕРЕ */
 .header-social {
     display: flex;
     gap: 15px;
@@ -448,7 +413,6 @@ body {
     height: 18px;
 }
 
-/* БУРГЕР-МЕНЮ ДЛЯ МОБИЛЬНЫХ */
 .burger-menu {
     display: none;
     flex-direction: column;
@@ -482,7 +446,6 @@ body {
     transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* МОБИЛЬНОЕ МЕНЮ */
 .mobile-menu {
     position: fixed;
     top: 0;
@@ -584,14 +547,12 @@ body {
     justify-content: center;
 }
 
-/* ОСНОВНОЙ КОНТЕНТ */
 .main-content {
     opacity: 0;
     animation: sectionReveal 1s ease-out 4.2s forwards;
     position: relative;
 }
 
-/* SMART SCROLL INDICATOR */
 .scroll-indicator {
     position: absolute;
     bottom: 60px;
@@ -625,7 +586,6 @@ body {
     background: linear-gradient(to bottom, var(--white), transparent);
 }
 
-/* HERO PARALLAX SETS */
 .hero-parallax-sets {
     position: absolute;
     top: 0;
@@ -670,7 +630,6 @@ body {
     filter: brightness(0.85); 
 }
 
-/* HERO CONTENT IMPROVEMENTS */
 .hero-eyebrow {
     font-size: 12px;
     letter-spacing: 4px;
@@ -726,7 +685,6 @@ body {
     animation: fadeInUp 0.8s ease-out 5.3s forwards;
 }
 
-/* ПАРАЛЛАКС СЕКЦИИ */
 .parallax-section {
     min-height: 100vh;
     position: relative;
@@ -780,34 +738,10 @@ body {
     max-width: 1200px;
     width: 100%;
     text-align: center;
-}
-
-/* ДОДАНО: центрування для конкретних секцій */
-#renovatie .section-content,
-#vloer .section-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
-#renovatie .section-title,
-#vloer .section-title,
-#renovatie .section-subtitle,
-#vloer .section-subtitle {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#renovatieGallery,
-#vloerGallery {
-    margin: 0 auto;
-}
-
-/* BACKGROUND FOR SECTIONS */
 .section-bg {
     position: absolute;
     top: 0;
@@ -821,7 +755,6 @@ body {
     z-index: 1;
 }
 
-/* МРАМОРНЫЙ ЭФФЕКТ */
 .marble-effect {
     position: relative;
     overflow: hidden;
@@ -840,7 +773,6 @@ body {
     animation: marbleRotate 60s infinite linear;
 }
 
-/* IMPROVED SECTION TITLES */
 .section-title {
     font-family: 'Playfair Display', serif !important;
     font-size: 56px !important;
@@ -854,6 +786,9 @@ body {
     opacity: 0;
     transform: translateY(30px);
     animation: sectionReveal 0.8s ease-out forwards;
+    text-align: center;
+    display: block;
+    width: 100%;
 }
 
 .section-subtitle {
@@ -869,9 +804,9 @@ body {
     opacity: 0;
     transform: translateY(30px);
     animation: sectionReveal 0.8s ease-out 0.3s forwards;
+    text-align: left;
 }
 
-/* СТИЛИ ГАЛЕРЕИ */
 .gallery-section {
     min-height: 100vh;
     padding: 150px 50px;
@@ -952,7 +887,6 @@ body {
     opacity: 0.9;
 }
 
-/* КНОПКИ */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -1012,7 +946,6 @@ body {
     box-shadow: 0 15px 40px rgba(255, 102, 0, 0.3);
 }
 
-/* МОДАЛЬНАЯ ГАЛЕРЕЯ - ВИПРАВЛЕНО */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -1164,52 +1097,99 @@ body {
     object-fit: cover;
 }
 
-/* КОНТАКТЫ */
+/* === ПОВНІСТЮ ПЕРЕРОБЛЕНА КОНТАКТНА СЕКЦІЯ === */
 .contact-section {
     min-height: 100vh;
     padding: 150px 50px;
     background: linear-gradient(135deg, var(--dark-gray) 0%, var(--black) 100%);
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.contact-container {
+.contact-section .section-content {
     max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.contact-info {
-    position: relative;
-}
-
-.contact-title {
-    font-size: 56px;
-    font-weight: 300;
-    margin-bottom: 40px;
-    letter-spacing: 3px;
-    font-family: 'Playfair Display', serif;
-}
-
-.contact-description {
+.contact-subtitle {
     font-size: 18px;
-    opacity: 0.8;
-    line-height: 1.8;
-    margin-bottom: 50px;
+    opacity: 0.9;
+    letter-spacing: 1px;
+    max-width: 600px;
+    margin: 0 auto 60px;
+    line-height: 1.7;
+    padding: 20px;
+    border-left: 3px solid var(--primary-color);
+    background: rgba(255, 102, 0, 0.05);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: sectionReveal 0.8s ease-out 0.3s forwards;
+    text-align: center !important;
+    border-left: none;
+    border-top: 3px solid var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.contact-info-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(20px);
+    text-align: left;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-info-card h3 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-weight: 300;
+    color: var(--white);
+    text-align: center;
 }
 
 .contact-details {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 25px;
+    margin-bottom: 40px;
+    flex-grow: 1;
 }
 
-.contact-item {
+.contact-detail-item {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.contact-icon {
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 102, 0, 0.1);
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .contact-label {
@@ -1218,11 +1198,13 @@ body {
     text-transform: uppercase;
     color: var(--primary-color);
     font-weight: 600;
+    margin-bottom: 5px;
 }
 
 .contact-value {
-    font-size: 18px;
+    font-size: 16px;
     opacity: 0.9;
+    line-height: 1.5;
 }
 
 .contact-value a {
@@ -1235,13 +1217,27 @@ body {
     color: var(--primary-color);
 }
 
-.social-links {
-    display: flex;
-    gap: 20px;
-    margin-top: 40px;
+.contact-social {
+    margin-top: auto;
+    text-align: center;
 }
 
-.social-link {
+.social-title {
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-icon {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -1256,38 +1252,54 @@ body {
     backdrop-filter: blur(10px);
 }
 
-.social-link:hover {
+.social-icon:hover {
     background: rgba(255, 102, 0, 0.2);
     border-color: var(--primary-color);
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(255, 102, 0, 0.2);
 }
 
-.contact-form {
+.social-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.contact-form-card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: 20px;
-    padding: 50px;
+    padding: 40px;
     backdrop-filter: blur(20px);
+    text-align: left;
+    height: 100%;
+}
+
+.contact-form-card h3 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-weight: 300;
+    color: var(--white);
+    text-align: center;
 }
 
 .form-group {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-size: 12px;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: rgba(255,255,255,0.7);
+    font-weight: 600;
 }
 
 .form-group input,
 .form-group textarea {
     width: 100%;
-    padding: 20px;
+    padding: 15px 20px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--glass-border);
     border-radius: 10px;
@@ -1296,6 +1308,7 @@ body {
     font-family: inherit;
     transition: all var(--transition-medium);
     backdrop-filter: blur(10px);
+    resize: vertical;
 }
 
 .form-group input:focus,
@@ -1308,7 +1321,7 @@ body {
 
 .form-submit {
     width: 100%;
-    padding: 20px;
+    padding: 18px;
     background: rgba(255, 102, 0, 0.2);
     border: 1px solid rgba(255, 102, 0, 0.5);
     color: var(--white);
@@ -1320,6 +1333,7 @@ body {
     transition: all var(--transition-medium);
     font-size: 14px;
     backdrop-filter: blur(10px);
+    margin-top: 10px;
 }
 
 .form-submit:hover {
@@ -1330,7 +1344,160 @@ body {
     letter-spacing: 3px;
 }
 
-/* ФУТЕР */
+/* === СТИЛІ ДЛЯ BEFORE/AFTER СЛАЙДЕРА === */
+.comparison-slider-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    text-align: center;
+}
+
+.comparison-title {
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: 300;
+    color: var(--primary-color);
+    letter-spacing: 1px;
+}
+
+.slider-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid var(--glass-border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.comparison-slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 13px;
+}
+
+.comparison-slider .before-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    user-select: none;
+}
+
+.comparison-slider .after-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.comparison-slider .after-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    transform: translateX(0);
+    will-change: transform;
+}
+
+.comparison-slider .slider-handle {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: var(--white);
+    cursor: ew-resize;
+    z-index: 10;
+    transform: translateX(-50%);
+    transition: background-color var(--transition-medium);
+}
+
+.comparison-slider .slider-handle:hover {
+    background: var(--primary-color);
+}
+
+.comparison-slider .slider-handle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    background: var(--white);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 5px 25px rgba(0,0,0,0.6);
+    transition: all var(--transition-medium);
+}
+
+.comparison-slider .slider-handle:hover::before {
+    background: var(--primary-color);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.comparison-slider .slider-handle::after {
+    content: '↔';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 22px;
+    color: var(--black);
+    font-weight: bold;
+}
+
+.comparison-slider .animation-control {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--black);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    z-index: 20;
+    transition: all var(--transition-medium);
+    backdrop-filter: blur(10px);
+    text-transform: uppercase;
+}
+
+.comparison-slider .animation-control:hover {
+    background: var(--white);
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 102, 0, 0.3);
+}
+
+.auto-indicator {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    background: rgba(255, 50, 50, 0.9);
+    color: var(--white);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    display: none;
+    z-index: 20;
+    animation: pulse 2s infinite;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 .footer {
     padding: 80px 50px 40px;
     background: var(--black);
@@ -1358,47 +1525,37 @@ body {
     margin-bottom: 20px;
 }
 
-/* АДАПТИВНОСТЬ - ОБНОВЛЕНО ДЛЯ МОБИЛЬНОЙ ВЕРСИИ */
+/* === МЕДІА-ЗАПИТИ === */
 @media (max-width: 1200px) {
-    .header {
-        padding: 0 30px;
-    }
-    
-    .nav {
-        gap: 30px;
-    }
-    
-    .gallery-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .contact-container {
+    .contact-grid {
         grid-template-columns: 1fr;
         gap: 50px;
+        max-width: 700px;
     }
     
-    .hero-title {
-        font-size: 60px !important;
+    .contact-info-card,
+    .contact-form-card {
+        width: 100%;
+    }
+    
+    .comparison-slider-container {
+        max-width: 800px;
     }
 }
 
 @media (max-width: 992px) {
-    /* Показываем бургер-меню */
     .burger-menu {
         display: flex;
     }
     
-    /* Скрываем десктопную навигацию и соц. кнопки */
     .nav-container {
         display: none;
     }
     
-    /* Логотип остается на месте */
-    .header-logo {
+    .header-logo-link {
         margin-right: auto;
     }
     
-    /* Бургер-меню справа */
     .burger-menu {
         margin-left: auto;
         margin-right: 0;
@@ -1411,65 +1568,21 @@ body {
     .section-title {
         font-size: 46px !important;
     }
-    
-    .contact-title {
-        font-size: 46px;
-    }
 }
 
 @media (max-width: 768px) {
     .header {
         padding: 0 20px;
-        height: 70px;
+        min-height: 70px;
     }
     
     .header.scrolled {
         padding: 0 20px;
-        height: 60px;
+        min-height: 60px;
     }
     
-    .header-logo .logo {
-        top: -15px;
-    }
-    
-    .header-logo .letters-container {
-        width: 140px;
-        height: 47px;
-    }
-    
-    .header-logo .letters {
-        font-size: 47px;
-        letter-spacing: -2.5px;
-    }
-    
-    .header-logo .letter-a {
-        margin-right: -8px;
-    }
-    
-    .header-logo .logo-bottom-row {
-        width: 140px;
-        height: 12px;
-    }
-    
-    .header-logo .logo-rectangle {
-        width: 117px;
-        height: 10px;
-    }
-    
-    .header-logo .logo-subtext {
-        font-size: 13px;
-        letter-spacing: 2.7px;
-    }
-    
-    .header-logo .logo-squares-container {
-        width: 20px;
-        height: 12px;
-        margin-left: 3px;
-    }
-    
-    .header-logo .logo-square {
-        width: 4px;
-        height: 4px;
+    .header-logo-img {
+        height: 40px;
     }
     
     .gallery-container {
@@ -1481,15 +1594,17 @@ body {
         height: 300px;
     }
     
-    .parallax-section {
-        padding: 120px 20px 80px;
-    }
-    
+    .parallax-section,
     .contact-section {
         padding: 120px 20px 80px;
     }
     
-    .contact-form {
+    .contact-grid {
+        padding: 0 10px;
+    }
+    
+    .contact-info-card,
+    .contact-form-card {
         padding: 30px;
     }
     
@@ -1519,7 +1634,8 @@ body {
         padding: 0 20px;
     }
     
-    .section-subtitle {
+    .section-subtitle,
+    .contact-subtitle {
         font-size: 16px;
         margin-bottom: 40px;
         padding: 15px;
@@ -1553,6 +1669,42 @@ body {
     .modal-next {
         right: 15px;
     }
+    
+    .comparison-slider-container {
+        margin-bottom: 50px;
+    }
+    
+    .comparison-title {
+        font-size: 24px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .slider-wrapper {
+        max-width: 100%;
+    }
+    
+    .comparison-slider .animation-control {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+    
+    .auto-indicator {
+        top: 15px;
+        left: 15px;
+        padding: 6px 15px;
+        font-size: 12px;
+    }
+    
+    .comparison-slider .slider-handle::before {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .comparison-slider .slider-handle::after {
+        font-size: 18px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1560,40 +1712,8 @@ body {
         padding: 0 15px;
     }
     
-    .header-logo .letters-container {
-        width: 120px;
-        height: 40px;
-    }
-    
-    .header-logo .letters {
-        font-size: 40px;
-        letter-spacing: -2px;
-    }
-    
-    .header-logo .logo-bottom-row {
-        width: 120px;
-        height: 10px;
-    }
-    
-    .header-logo .logo-rectangle {
-        width: 100px;
-        height: 8px;
-    }
-    
-    .header-logo .logo-subtext {
-        font-size: 11px;
-        letter-spacing: 2.3px;
-    }
-    
-    .header-logo .logo-squares-container {
-        width: 17px;
-        height: 10px;
-        margin-left: 3px;
-    }
-    
-    .header-logo .logo-square {
-        width: 3px;
-        height: 3px;
+    .header-logo-img {
+        height: 35px;
     }
     
     .hero-title {
@@ -1624,33 +1744,32 @@ body {
     .footer {
         padding: 60px 20px 30px;
     }
-}
-
-/* Анимация для логотипа в хедере при мобильной версии */
-@media (max-width: 768px) {
-    @keyframes logoToHeader {
-        0% {
-            transform: translate(0, 0) scale(1);
-        }
-        40% {
-            transform: translate(calc(50vw - 250px), calc(-50vh + 100px)) scale(0.8);
-        }
-        100% {
-            transform: translate(20px, 0) scale(0.35);
-        }
+    
+    .comparison-title {
+        font-size: 20px !important;
     }
-}
-
-@media (max-width: 480px) {
-    @keyframes logoToHeader {
-        0% {
-            transform: translate(0, 0) scale(1);
-        }
-        40% {
-            transform: translate(calc(50vw - 200px), calc(-50vh + 100px)) scale(0.8);
-        }
-        100% {
-            transform: translate(15px, 0) scale(0.3);
-        }
+    
+    .comparison-slider .animation-control {
+        padding: 8px 15px;
+        font-size: 12px;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .auto-indicator {
+        top: 10px;
+        left: 10px;
+        padding: 5px 12px;
+        font-size: 11px;
+    }
+    
+    .contact-detail-item {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .contact-icon {
+        align-self: center;
     }
 }

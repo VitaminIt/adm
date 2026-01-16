@@ -1,6 +1,3 @@
-/* ОСНОВНЫЕ АНИМАЦИИ */
-
-/* Прелоудер - появление букв */
 @keyframes lettersAppear {
     0% { 
         opacity: 0; 
@@ -17,7 +14,6 @@
     }
 }
 
-/* Прелоудер - молния - ИСПРАВЛЕНО (плавная как в 1.html) */
 @keyframes flashLightning {
     0% { 
         background-position: 0% 50%;
@@ -29,7 +25,6 @@
     }
 }
 
-/* Прелоудер - оранжевая А */
 @keyframes orangeAReveal {
     0% {
         opacity: 0;
@@ -45,7 +40,6 @@
     }
 }
 
-/* Свечение буквы А */
 @keyframes aGlowEffect {
     0% { 
         filter: brightness(1) drop-shadow(0 0 0px #FF6600);
@@ -55,7 +49,6 @@
     }
 }
 
-/* Прелоудер - текст stoneart */
 @keyframes textSlideIn {
     0% {
         opacity: 0;
@@ -69,7 +62,6 @@
     }
 }
 
-/* Прелоудер - квадратики */
 @keyframes squaresPop {
     0% {
         opacity: 0;
@@ -85,20 +77,17 @@
     }
 }
 
-/* Перемещение логотипа в хедер */
 @keyframes logoToHeader {
     0% {
-        transform: translate(0, 0) scale(1);
-    }
-    40% {
-        transform: translate(calc(50vw - 300px), calc(-50vh + 100px)) scale(0.8);
+        opacity: 0;
+        transform: translate(0, -20px) scale(0.9);
     }
     100% {
-        transform: translate(30px, 0) scale(0.4);
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
     }
 }
 
-/* Появление хедера */
 @keyframes headerSlideIn {
     0% {
         opacity: 0;
@@ -112,7 +101,6 @@
     }
 }
 
-/* Параллакс фона */
 @keyframes parallaxFloat {
     0% {
         transform: scale(1.2) translate(0%, 0%) rotate(0deg);
@@ -128,7 +116,6 @@
     }
 }
 
-/* Появление секций */
 @keyframes sectionReveal {
     0% {
         opacity: 0;
@@ -140,7 +127,6 @@
     }
 }
 
-/* Появление элементов галереи */
 @keyframes galleryItemAppear {
     0% {
         opacity: 0;
@@ -152,7 +138,6 @@
     }
 }
 
-/* Мраморная текстура */
 @keyframes marbleFlow {
     0% {
         background-position: 0% 0%;
@@ -162,7 +147,6 @@
     }
 }
 
-/* Эффект гравитации при скролле */
 @keyframes gravityScroll {
     0% {
         transform: translateY(0);
@@ -178,17 +162,6 @@
     }
 }
 
-/* Подсветка пункта меню */
-@keyframes menuItemGlow {
-    0% {
-        letter-spacing: normal;
-    }
-    100% {
-        letter-spacing: 3px;
-    }
-}
-
-/* Подсветка буквы А */
 @keyframes letterAGlow {
     0% {
         color: #fff;
@@ -203,7 +176,6 @@
     }
 }
 
-/* Анимация оранжевой линии */
 @keyframes underlineSlide {
     0% {
         transform: scaleX(0);
@@ -215,19 +187,6 @@
     }
 }
 
-/* Эффект матового стекла */
-@keyframes glassEffect {
-    0% {
-        backdrop-filter: blur(0);
-        background: rgba(255, 255, 255, 0);
-    }
-    100% {
-        backdrop-filter: blur(15px);
-        background: rgba(255, 255, 255, 0.05);
-    }
-}
-
-/* Эффект нажатия кнопки */
 @keyframes buttonPress {
     0% {
         transform: translateY(0) scale(1);
@@ -243,7 +202,6 @@
     }
 }
 
-/* Вращение мраморной текстуры */
 @keyframes marbleRotate {
     0% {
         transform: rotate(0deg);
@@ -255,7 +213,6 @@
     }
 }
 
-/* Эффект частиц */
 @keyframes particlesFloat {
     0% {
         transform: translate(0, 0) rotate(0deg);
@@ -273,7 +230,6 @@
     }
 }
 
-/* МЕДЛЕННЫЙ СКРОЛЛ */
 html {
     scroll-behavior: smooth;
     scroll-timeline: --page-scroll block;
@@ -291,7 +247,6 @@ html {
     }
 }
 
-/* Smart Scroll Bounce */
 @keyframes bounce {
     0%, 100% { 
         transform: translateX(-50%) translateY(0); 
@@ -301,7 +256,6 @@ html {
     }
 }
 
-/* Parallax layer animations */
 @keyframes p1 { 
     0%, 100% { 
         transform: translate(0, 0) scale(1); 
@@ -329,7 +283,6 @@ html {
     } 
 }
 
-/* Section reveal with delay */
 @keyframes fadeInUp {
     to {
         opacity: 1;
@@ -337,7 +290,6 @@ html {
     }
 }
 
-/* Анимация для мобильного меню */
 @keyframes slideDown {
     from {
         opacity: 0;
@@ -358,4 +310,9 @@ html {
         opacity: 0;
         transform: translateY(-20px);
     }
+}
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
 }

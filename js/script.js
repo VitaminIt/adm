@@ -1,6 +1,3 @@
-// ===============================
-// DOM READY
-// ===============================
 document.addEventListener('DOMContentLoaded', () => {
     const preloader = document.getElementById('preloader');
     const mainContent = document.getElementById('mainContent');
@@ -17,15 +14,209 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeScrollEffects();
         initializeForm();
         initializeMobileMenu();
+        initializeHomeLogo();
+        initializeComparisonSlider();
 
         setTimeout(() => preloader.style.display = 'none', 1000);
     }, 3800);
 });
 
+// === ВИПРАВЛЕНА ФУНКЦІЯ ДЛЯ ЛОГО ===
+function initializeHomeLogo() {
+    const homeLogo = document.getElementById('homeLogo');
+    
+    if (!homeLogo) return;
+    
+    // Видаляємо всі старі обробники подій
+    const newLogo = homeLogo.cloneNode(true);
+    homeLogo.parentNode.replaceChild(newLogo, homeLogo);
+    
+    // Додаємо новий обробник
+    const logo = document.getElementById('homeLogo');
+    
+    logo.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Анімація кліку
+        logo.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            logo.style.transform = 'scale(1)';
+        }, 200);
+        
+        // Плавна прокрутка на початок
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        
+        // Оновлюємо активну навігацію
+        document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // Закриваємо мобільне меню
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (burgerMenu && burgerMenu.classList.contains('active')) {
+            burgerMenu.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        return false;
+    });
+}
 
-// ===============================
-// MOBILE MENU INITIALIZATION
-// ===============================
+// === ФУНКЦІЯ ДЛЯ BEFORE/AFTER СЛАЙДЕРА ===
+function initializeComparisonSlider() {
+    const slider = document.getElementById('slider-handle');
+    const afterWrapper = document.getElementById('after-wrapper');
+    const afterImg = document.getElementById('after-img');
+    const container = document.getElementById('comparison-slider');
+    const animationControl = document.getElementById('animation-control');
+    const autoIndicator = document.getElementById('auto-indicator');
+
+    if (!slider || !container) return;
+
+    let isDragging = false;
+    let isAnimating = false;
+    let animationId = null;
+    let animationDirection = 1;
+    let currentPosition = 50;
+    let containerRect = container.getBoundingClientRect();
+
+    function updateContainerRect() {
+        containerRect = container.getBoundingClientRect();
+        if (afterImg) {
+            afterImg.style.width = `${containerRect.width}px`;
+        }
+    }
+
+    function moveSlider(clientX) {
+        let offset = clientX - containerRect.left;
+        
+        if (offset < 0) offset = 0;
+        if (offset > containerRect.width) offset = containerRect.width;
+        
+        const percentage = (offset / containerRect.width) * 100;
+        updateSliderPosition(percentage);
+    }
+
+    function updateSliderPosition(percentage) {
+        currentPosition = percentage;
+        
+        if (currentPosition < 0) currentPosition = 0;
+        if (currentPosition > 100) currentPosition = 100;
+        
+        if (afterWrapper) {
+            afterWrapper.style.width = `${currentPosition}%`;
+        }
+        if (slider) {
+            slider.style.left = `${currentPosition}%`;
+        }
+    }
+
+    function startAutoAnimation() {
+        if (isAnimating) return;
+        
+        isAnimating = true;
+        if (animationControl) animationControl.textContent = '⏸ Stop';
+        if (autoIndicator) autoIndicator.style.display = 'block';
+        
+        const speed = 0.3;
+        
+        function animate() {
+            if (currentPosition >= 90) {
+                animationDirection = -1;
+            } else if (currentPosition <= 10) {
+                animationDirection = 1;
+            }
+            
+            currentPosition += speed * animationDirection;
+            const randomFactor = (Math.random() - 0.5) * 0.5;
+            const finalPosition = currentPosition + randomFactor;
+            
+            updateSliderPosition(finalPosition);
+            
+            if (isAnimating) {
+                animationId = requestAnimationFrame(animate);
+            }
+        }
+        
+        animate();
+    }
+
+    function stopAutoAnimation() {
+        isAnimating = false;
+        if (animationControl) animationControl.textContent = '▶ Autoshow';
+        if (autoIndicator) autoIndicator.style.display = 'none';
+        
+        if (animationId) {
+            cancelAnimationFrame(animationId);
+            animationId = null;
+        }
+    }
+
+    // Ініціалізація подій
+    if (animationControl) {
+        animationControl.addEventListener('click', () => {
+            if (isAnimating) {
+                stopAutoAnimation();
+            } else {
+                startAutoAnimation();
+            }
+        });
+    }
+
+    // Миша
+    if (slider) {
+        slider.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            e.preventDefault();
+            updateContainerRect();
+            stopAutoAnimation();
+        });
+    }
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+    document.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        moveSlider(e.clientX);
+    });
+
+    // Тач
+    if (slider) {
+        slider.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            e.preventDefault();
+            updateContainerRect();
+            stopAutoAnimation();
+        });
+    }
+
+    document.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+
+    document.addEventListener('touchmove', e => {
+        if (!isDragging) return;
+        e.preventDefault();
+        moveSlider(e.touches[0].clientX);
+    });
+
+    window.addEventListener('resize', updateContainerRect);
+
+    // Автоматичний старт анімації
+    updateContainerRect();
+    setTimeout(() => {
+        startAutoAnimation();
+    }, 2000);
+}
+
 function initializeMobileMenu() {
     const burgerMenu = document.getElementById('burgerMenu');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -34,7 +225,6 @@ function initializeMobileMenu() {
     
     if (!burgerMenu || !mobileMenu) return;
     
-    // Открыть/закрыть меню
     burgerMenu.addEventListener('click', (e) => {
         e.stopPropagation();
         burgerMenu.classList.toggle('active');
@@ -42,14 +232,12 @@ function initializeMobileMenu() {
         document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
     });
     
-    // Закрыть по крестику
     mobileClose.addEventListener('click', () => {
         burgerMenu.classList.remove('active');
         mobileMenu.classList.remove('active');
         document.body.style.overflow = '';
     });
     
-    // Закрыть по клику на ссылку
     mobileNavLinks.forEach(link => {
         link.addEventListener('click', () => {
             burgerMenu.classList.remove('active');
@@ -58,7 +246,6 @@ function initializeMobileMenu() {
         });
     });
     
-    // Закрыть по клику вне меню
     document.addEventListener('click', (e) => {
         if (mobileMenu.classList.contains('active') && 
             !mobileMenu.contains(e.target) && 
@@ -69,7 +256,6 @@ function initializeMobileMenu() {
         }
     });
     
-    // Закрыть по Escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
             burgerMenu.classList.remove('active');
@@ -79,10 +265,6 @@ function initializeMobileMenu() {
     });
 }
 
-
-// ===============================
-// NAVIGATION (SAFE)
-// ===============================
 function initializeScrollEffects() {
     const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
     const sections = document.querySelectorAll('section[id]');
@@ -94,7 +276,6 @@ function initializeScrollEffects() {
             const target = document.querySelector(targetId);
             if (!target) return;
             
-            // Закрыть мобильное меню если открыто
             const burgerMenu = document.getElementById('burgerMenu');
             const mobileMenu = document.getElementById('mobileMenu');
             if (burgerMenu && burgerMenu.classList.contains('active')) {
@@ -118,7 +299,6 @@ function initializeScrollEffects() {
             }
         });
 
-        // Обновить активные ссылки в обоих меню
         navLinks.forEach(link => {
             const href = link.getAttribute('href');
             link.classList.toggle('active', href === `#${current}`);
@@ -128,10 +308,6 @@ function initializeScrollEffects() {
     });
 }
 
-
-// ===============================
-// HERO PARALLAX (NO SCROLL HIJACK)
-// ===============================
 function initializeHeroParallax() {
     let currentSet = 1;
 
@@ -163,10 +339,6 @@ function initializeHeroParallax() {
     }
 }
 
-
-// ===============================
-// PARALLAX BACKGROUNDS
-// ===============================
 function initializeParallax() {
     const items = document.querySelectorAll('.parallax-bg');
     window.addEventListener('scroll', () => {
@@ -177,10 +349,6 @@ function initializeParallax() {
     });
 }
 
-
-// ===============================
-// FULL GALLERY DATA (RESTORED)
-// ===============================
 const galleryData = {
     renovatie: [
         {
@@ -247,10 +415,6 @@ const galleryData = {
     ]
 };
 
-
-// ===============================
-// GALLERY INIT
-// ===============================
 function initializeGalleries() {
     for (const galleryId in galleryData) {
         const container = document.getElementById(`${galleryId}Gallery`);
@@ -273,10 +437,6 @@ function initializeGalleries() {
     }
 }
 
-
-// ===============================
-// MODAL GALLERY (FULL)
-// ===============================
 const modalOverlay = document.getElementById('modalOverlay');
 const modalImage = document.getElementById('modalImage');
 const modalPrev = document.getElementById('modalPrev');
@@ -346,7 +506,6 @@ modalNext.onclick = () => {
 modalClose.onclick = closeModal;
 modalOverlay.onclick = e => e.target === modalOverlay && closeModal();
 
-// Добавить обработчики клавиш
 document.addEventListener('keydown', (e) => {
     if (!modalOverlay.classList.contains('active')) return;
     
@@ -355,10 +514,6 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight') modalNext.click();
 });
 
-
-// ===============================
-// FORM
-// ===============================
 function initializeForm() {
     const form = document.getElementById('contactForm');
     if (!form) return;
